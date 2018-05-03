@@ -1,6 +1,7 @@
 package com.saurabhtotey.jump.ui
 
 import com.badlogic.gdx.utils.Align
+import ktx.actors.onClick
 import ktx.scene2d.*
 
 //How the main menu GUI will look
@@ -14,8 +15,11 @@ val mainMenuLayout = table {
     row().align(Align.bottomLeft)
     button {
         image("OptionsButton")
-        it.width(50f)
-        it.height(50f)
+        onClick {
+
+        }
+        it.width(75f)
+        it.height(75f)
     }
 }
 
@@ -25,8 +29,11 @@ val mainGameLayout = table {
     pad(15f)
     button {
         image("PauseButton")
-        it.width(50f)
-        it.height(50f)
+        onClick {
+
+        }
+        it.width(75f)
+        it.height(75f)
     }
     align(Align.topLeft)
 }
