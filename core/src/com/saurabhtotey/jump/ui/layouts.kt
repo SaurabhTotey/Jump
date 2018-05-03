@@ -1,9 +1,7 @@
 package com.saurabhtotey.jump.ui
 
 import com.badlogic.gdx.utils.Align
-import ktx.scene2d.button
-import ktx.scene2d.label
-import ktx.scene2d.table
+import ktx.scene2d.*
 
 //How the main menu GUI will look
 val mainMenuLayout = table {
@@ -15,7 +13,9 @@ val mainMenuLayout = table {
     }
     row().align(Align.bottomLeft)
     button {
-        label("Options")
+        image("OptionsButton")
+        it.width(50f)
+        it.height(50f)
     }
 }
 
@@ -24,7 +24,9 @@ val mainGameLayout = table {
     setFillParent(true)
     pad(15f)
     button {
-        label("Pause")
+        image("PauseButton")
+        it.width(50f)
+        it.height(50f)
     }
     align(Align.topLeft)
 }

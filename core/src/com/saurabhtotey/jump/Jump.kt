@@ -2,6 +2,7 @@ package com.saurabhtotey.jump
 
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -23,7 +24,10 @@ class Jump : Game() {
      * What happens when the app is made
      */
     override fun create() {
-        Scene2DSkin.defaultSkin = Skin(Gdx.files.internal("defaultSkin/skin/uiskin.json"))
+        Scene2DSkin.defaultSkin = Skin(Gdx.files.internal("defaultSkin/skin/uiskin.json")).also {
+            it.add("PauseButton", Texture("images/PauseButton.png"))
+            it.add("OptionsButton", Texture("images/OptionsButton.png"))
+        }
         this.textDrawer = BitmapFont()
         this.screen = GameScreen(this)
         this.batch = SpriteBatch()

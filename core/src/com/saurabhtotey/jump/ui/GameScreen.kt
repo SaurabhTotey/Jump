@@ -30,7 +30,7 @@ class GameScreen(val app: Jump) : KtxScreen {
      * What happens when a GameScreen is created
      */
     init {
-        this.camera.setToOrtho(false, this.game.width.toFloat(), this.game.height.toFloat())
+        this.camera.setToOrtho(false, this.game.width, this.game.height)
         Gdx.input.inputProcessor = this.uiContainer
         this.uiContainer.addActor(mainMenuLayout)
     }
