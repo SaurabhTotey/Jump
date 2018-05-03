@@ -17,6 +17,8 @@ class GameScreen(val game: Jump) : KtxScreen {
 
     //What handles showing what is going on currently
     val camera: OrthographicCamera = OrthographicCamera()
+    //Where the previous camera baseline was for the bottom of the world
+    var baseline = 0f
     //What handles showing the UI components
     val uiContainer = Stage()
     //The world that the game will take place in
@@ -45,28 +47,44 @@ class GameScreen(val game: Jump) : KtxScreen {
      * What the screen does every tick
      */
     override fun render(delta: Float) {
+
         //Clears the screen to sky blue
         Gdx.gl.glClearColor(.529f, .808f, .922f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
+
         //Updates the camera and the batch
         this.camera.update()
         this.game.batch.projectionMatrix = this.camera.combined
-        //If the game is running, update it; if it isn't, check for a touch and start it
-        if (this.isGameRunning) {
+
+        //If the game is running and has been started
+        if (this.isGameRunning && this.world.isInProgress) {
+            //Move towards a touch event if one happened
             if (Gdx.input.isTouched) {
                 this.world.player.moveTowards(Vector2(Gdx.input.x.toFloat(), Gdx.input.y.toFloat()))
             }
+            //Make the world tick and move the camera to the new world location
             this.world.act(delta)
+            this.camera.translate(0f, this.world.currentBaseHeight - this.baseline)
+            this.baseline = this.world.currentBaseHeight
+        //If the game isn't currently running for whatever reason, but a touch event happened
         } else if (Gdx.input.isTouched) {
-            mainMenuLayout.remove()
-            this.uiContainer.addActor(mainGameLayout)
-            this.isGameRunning = true
-            this.world.player.jump()
+            //If the game was already started, just continue
+            if (this.world.isInProgress) {
+                this.isGameRunning = true
+            //Otherwise, if the game has yet to start, start it
+            } else {
+                mainMenuLayout.remove()
+                this.uiContainer.addActor(mainGameLayout)
+                this.isGameRunning = true
+                this.world.start()
+            }
         }
+
         //Allows the batch to draw sprites and draws the world
         this.game.batch.begin()
         this.world.draw(this.game.batch)
         this.game.batch.end()
+
         //Draws the UI components
         this.uiContainer.act(delta)
         this.uiContainer.draw()

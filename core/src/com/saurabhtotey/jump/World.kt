@@ -13,12 +13,12 @@ class World {
     val width = 540f
     //The height of the world
     val height = 960f
+    //Whether the game is in progress or not
+    var isInProgress = false
     //The maximum height that the player can appear to be above the bottom of the screen
     val maxPlayerRelativeHeight = this.height / 5
     //How high the game currently is; rises as the player of the game rises
     var currentBaseHeight = 0f
-    //The speed of the screen rise in px/ms
-    var screenRise = 0f
     //The world's gravity or acceleration in the downward direction
     val gravity = 2f
     //The world's player
@@ -39,8 +39,18 @@ class World {
      * What the world does every tick; just ensures that all entities update
      */
     fun act(delta: Float) {
-        this.currentBaseHeight += delta * screenRise
         (this.entities + this.player).forEach { it.act(delta) }
+        if (this.player.location.y > this.currentBaseHeight + this.maxPlayerRelativeHeight) {
+            this.currentBaseHeight = this.player.location.y - this.maxPlayerRelativeHeight
+        }
+    }
+
+    /**
+     * The procedure for starting the game
+     */
+    fun start() {
+        this.player.jump()
+        this.isInProgress = true
     }
 
 }

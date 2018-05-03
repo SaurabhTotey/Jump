@@ -17,3 +17,6 @@ val mainGameLayout = table {  }
 
 //How the game will look when paused
 val pausedGameLayout = table {  }
+
+//How the game will look when finished
+val finishedGameLayout = table {  }
