@@ -24,13 +24,13 @@ class World {
     //The world's player
     val player = Player(this)
     //A list of all the entities that are in the world
-    val entities = listOf(this.player, Ground(this))
+    val entities = listOf(Ground(this))
 
     /**
      * Draws the world and reflects any changes
      */
     fun draw(batch: Batch) {
-        for (entity in this.entities) {
+        for (entity in this.entities + this.player) {
             batch.draw(entity.representation, entity.location.x, entity.location.y, entity.location.width, entity.location.height)
         }
     }
@@ -40,7 +40,7 @@ class World {
      */
     fun act(delta: Float) {
         this.currentBaseHeight += delta * screenRise
-        this.entities.forEach { it.act(delta) }
+        (this.entities + this.player).forEach { it.act(delta) }
     }
 
 }

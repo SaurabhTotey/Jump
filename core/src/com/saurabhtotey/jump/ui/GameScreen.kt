@@ -3,6 +3,7 @@ package com.saurabhtotey.jump.ui
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.saurabhtotey.jump.Jump
 import com.saurabhtotey.jump.World
@@ -50,9 +51,17 @@ class GameScreen(val game: Jump) : KtxScreen {
         //Updates the camera and the batch
         this.camera.update()
         this.game.batch.projectionMatrix = this.camera.combined
-        //If the game is running, update it
+        //If the game is running, update it; if it isn't, check for a touch and start it
         if (this.isGameRunning) {
+            if (Gdx.input.isTouched) {
+                this.world.player.moveTowards(Vector2(Gdx.input.x.toFloat(), Gdx.input.y.toFloat()))
+            }
             this.world.act(delta)
+        } else if (Gdx.input.isTouched) {
+            mainMenuLayout.remove()
+            this.uiContainer.addActor(mainGameLayout)
+            this.isGameRunning = true
+            this.world.player.jump()
         }
         //Allows the batch to draw sprites and draws the world
         this.game.batch.begin()

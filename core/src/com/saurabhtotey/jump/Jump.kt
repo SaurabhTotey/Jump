@@ -23,7 +23,7 @@ class Jump : Game() {
      * What happens when the game is made
      */
     override fun create() {
-        Scene2DSkin.defaultSkin = Skin(Gdx.files.internal("skin/uiskin.json"))
+        Scene2DSkin.defaultSkin = Skin(Gdx.files.internal("defaultSkin/skin/uiskin.json"))
         this.textDrawer = BitmapFont()
         this.screen = GameScreen(this)
         this.batch = SpriteBatch()

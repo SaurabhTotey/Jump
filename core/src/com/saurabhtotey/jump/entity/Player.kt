@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.saurabhtotey.jump.World
 import ktx.math.*
-import kotlin.math.roundToInt
 
 /**
  * The class that represents the player who is actually playing the game
@@ -27,13 +26,14 @@ class Player(world: World) : Entity(world) {
     override var location = Rectangle(world.width / 2 - 20, world.maxPlayerRelativeHeight, 40f, 80f)
     //The speed and direction that the player is moving towards in px/ms
     var velocity = Vector2(0f, 0f)
+    //The maximum speed in any given component that the player can move
+    val maxVelocity = Vector2(10f, 5f)
     //How the player looks; is based on the direction that the player is moving (velocity)
     override var representation: Sprite = PositionTexture.NEUTRAL.appearance
         get() = when {
-                this.velocity.y < 0 -> PositionTexture.FALLING.appearance
-                this.velocity.x.roundToInt() == 0 -> PositionTexture.NEUTRAL.appearance
                 this.velocity.x > 0 -> PositionTexture.RIGHT.appearance
                 this.velocity.x < 0 -> PositionTexture.LEFT.appearance
+                this.velocity.y < 0 -> PositionTexture.FALLING.appearance
                 else -> PositionTexture.NEUTRAL.appearance
             }
 
@@ -43,8 +43,38 @@ class Player(world: World) : Entity(world) {
      */
     override fun act(delta: Float) {
         this.location.setPosition(Vector2().also { this.location.getPosition(it) } + this.velocity)
-        this.velocity.x = 0f
         this.velocity.y -= this.world.gravity * delta
+        val horizontalCorrectionalAcceleration = this.world.gravity * delta * 3
+        if (this.velocity.x < 0) {
+            this.velocity.x += horizontalCorrectionalAcceleration
+            if (this.velocity.x > 0) {
+                this.velocity.x = 0f
+            }
+        } else if (this.velocity.x > 0) {
+            this.velocity.x -= horizontalCorrectionalAcceleration
+            if (this.velocity.x < 0) {
+                this.velocity.x = 0f
+            }
+        }
+    }
+
+    /**
+     * Makes the player jump
+     */
+    fun jump() {
+        this.velocity.y = this.maxVelocity.y
+    }
+
+    /**
+     * Moves the player horizontally towards the given point
+     */
+    fun moveTowards(destination: Vector2) {
+        val direction = destination - Vector2().also { this.location.getCenter(it) }
+        this.velocity.x = this.maxVelocity.x * when {
+            direction.x < 0 -> -1
+            direction.x > 0 -> 1
+            else -> 0
+        }
     }
 
 }
