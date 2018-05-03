@@ -4,13 +4,13 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
-import com.saurabhtotey.jump.World
+import com.saurabhtotey.jump.Game
 import ktx.math.*
 
 /**
- * The class that represents the player who is actually playing the game
+ * The class that represents the player who is actually playing the app
  */
-class Player(world: World) : Entity(world) {
+class Player(game: Game) : Entity(game) {
 
     /**
      * A set of player positions mapped to their respective sprites
@@ -23,7 +23,7 @@ class Player(world: World) : Entity(world) {
     }
 
     //Where the player is along with the player's size
-    override var location = Rectangle(world.width / 2 - 20, world.maxPlayerRelativeHeight, 40f, 80f)
+    override var location = Rectangle(game.width / 2 - 20, game.maxPlayerRelativeHeight, 40f, 80f)
     //The speed and direction that the player is moving towards in px/ms
     var velocity = Vector2(0f, 0f)
     //The maximum speed in any given component that the player can move
@@ -39,12 +39,12 @@ class Player(world: World) : Entity(world) {
 
 
     /**
-     * Every turn, the player adjusts its location by its velocity and changes the velocity of the player based on the world gravity
+     * Every turn, the player adjusts its location by its velocity and changes the velocity of the player based on the app gravity
      */
     override fun act(delta: Float) {
         this.location.setPosition(Vector2().also { this.location.getPosition(it) } + this.velocity)
-        this.velocity.y -= this.world.gravity * delta
-        val horizontalCorrectionalAcceleration = this.world.gravity * delta * 3
+        this.velocity.y -= this.game.gravity * delta
+        val horizontalCorrectionalAcceleration = this.game.gravity * delta * 3
         if (this.velocity.x < 0) {
             this.velocity.x += horizontalCorrectionalAcceleration
             if (this.velocity.x > 0) {

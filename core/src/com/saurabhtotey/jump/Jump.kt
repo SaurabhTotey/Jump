@@ -10,17 +10,17 @@ import com.saurabhtotey.jump.ui.GameScreen
 import ktx.scene2d.Scene2DSkin
 
 /**
- * Main point of entry for all platforms of the game
+ * Main point of entry for all platforms of the app
  */
 class Jump : Game() {
 
-    //The font that will be used to draw the game's text
+    //The font that will be used to draw the app's text
     lateinit var textDrawer: BitmapFont
     //The batch that will be used to draw any sprites
     lateinit var batch: Batch
 
     /**
-     * What happens when the game is made
+     * What happens when the app is made
      */
     override fun create() {
         Scene2DSkin.defaultSkin = Skin(Gdx.files.internal("defaultSkin/skin/uiskin.json"))
@@ -30,7 +30,7 @@ class Jump : Game() {
     }
 
     /**
-     * Handles disposing of and destroying the game and its resources
+     * Handles disposing of and destroying the app and its resources
      */
     override fun dispose() {
         super.dispose()

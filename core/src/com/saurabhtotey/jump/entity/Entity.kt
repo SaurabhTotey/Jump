@@ -2,12 +2,12 @@ package com.saurabhtotey.jump.entity
 
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.math.Rectangle
-import com.saurabhtotey.jump.World
+import com.saurabhtotey.jump.Game
 
 /**
  * An object that represents something in the game
  */
-abstract class Entity(val world: World) {
+abstract class Entity(val game: Game) {
 
     /**
      * Where the entity is along with its dimensions

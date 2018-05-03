@@ -12,11 +12,11 @@ val mainMenuLayout = table {
     }
 }
 
-//How the game will look during play
+//How the app will look during play
 val mainGameLayout = table {  }
 
-//How the game will look when paused
+//How the app will look when paused
 val pausedGameLayout = table {  }
 
-//How the game will look when finished
+//How the app will look when finished
 val finishedGameLayout = table {  }

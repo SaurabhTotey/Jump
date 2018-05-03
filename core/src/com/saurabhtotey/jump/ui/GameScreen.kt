@@ -6,31 +6,31 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.saurabhtotey.jump.Jump
-import com.saurabhtotey.jump.World
+import com.saurabhtotey.jump.Game
 import ktx.app.KtxScreen
 
 /**
- * The screen that handles drawing and displaying and handling the graphics part of the game
+ * The screen that handles drawing and displaying and handling the graphics part of the app
  * Functions not only as where the player plays, but also the main menu
  */
-class GameScreen(val game: Jump) : KtxScreen {
+class GameScreen(val app: Jump) : KtxScreen {
 
     //What handles showing what is going on currently
     val camera: OrthographicCamera = OrthographicCamera()
-    //Where the previous camera baseline was for the bottom of the world
+    //Where the previous camera baseline was for the bottom of the app
     var baseline = 0f
     //What handles showing the UI components
     val uiContainer = Stage()
-    //The world that the game will take place in
-    val world = World()
-    //Whether a game is in progress
-    var isGameRunning = false
+    //The app that the app will take place in
+    val game = Game()
+    //Whether this screen is keeping a app running
+    var isRunningGame = false
 
     /**
      * What happens when a GameScreen is created
      */
     init {
-        this.camera.setToOrtho(false, this.world.width.toFloat(), this.world.height.toFloat())
+        this.camera.setToOrtho(false, this.game.width.toFloat(), this.game.height.toFloat())
         Gdx.input.inputProcessor = this.uiContainer
         this.uiContainer.addActor(mainMenuLayout)
     }
@@ -54,46 +54,46 @@ class GameScreen(val game: Jump) : KtxScreen {
 
         //Updates the camera and the batch
         this.camera.update()
-        this.game.batch.projectionMatrix = this.camera.combined
+        this.app.batch.projectionMatrix = this.camera.combined
 
-        //If the game is running and has been started
-        if (this.isGameRunning && this.world.isInProgress) {
+        //If the app is running and has been started
+        if (this.isRunningGame && this.game.isRunning) {
             //Move towards a touch event if one happened
             if (Gdx.input.isTouched) {
-                this.world.player.moveTowards(Vector2(Gdx.input.x.toFloat(), Gdx.input.y.toFloat()))
+                this.game.player.moveTowards(Vector2(Gdx.input.x.toFloat(), Gdx.input.y.toFloat()))
             }
-            //Make the world tick and move the camera to the new world location
-            this.world.act(delta)
-            this.camera.translate(0f, this.world.currentBaseHeight - this.baseline)
-            this.baseline = this.world.currentBaseHeight
-        //If the game isn't currently running for whatever reason, but a touch event happened
+            //Make the app tick and move the camera to the new app location
+            this.game.act(delta)
+            this.camera.translate(0f, this.game.currentBaseHeight - this.baseline)
+            this.baseline = this.game.currentBaseHeight
+        //If the app isn't currently running for whatever reason, but a touch event happened
         } else if (Gdx.input.isTouched) {
-            //If the game was already started, just continue
-            if (this.world.isInProgress) {
-                this.isGameRunning = true
-            //Otherwise, if the game has yet to start, start it
+            //If the app was already started, just continue
+            if (this.game.isRunning) {
+                this.isRunningGame = true
+            //Otherwise, if the app has yet to start, start it
             } else {
                 mainMenuLayout.remove()
                 this.uiContainer.addActor(mainGameLayout)
-                this.isGameRunning = true
-                this.world.start()
+                this.isRunningGame = true
+                this.game.start()
             }
         }
 
-        //Allows the batch to draw sprites and draws the world
-        this.game.batch.begin()
-        this.world.draw(this.game.batch)
-        this.game.batch.end()
+        //Allows the batch to draw sprites and draws the app
+        this.app.batch.begin()
+        this.game.draw(this.app.batch)
+        this.app.batch.end()
 
         //Draws the UI components
         this.uiContainer.act(delta)
         this.uiContainer.draw()
     }
 
-    //When the screen is hidden, the game is paused
-    override fun hide() { this.isGameRunning = false }
-    //When the screen is paused, so is the game
-    override fun pause() { this.isGameRunning = false }
+    //When the screen is hidden, the app is paused
+    override fun hide() { this.isRunningGame = false }
+    //When the screen is paused, so is the app
+    override fun pause() { this.isRunningGame = false }
 
     /**
      * What the screen does when it is finished or destroyed
