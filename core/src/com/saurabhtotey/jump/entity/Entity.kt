@@ -1,6 +1,6 @@
 package com.saurabhtotey.jump.entity
 
-import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.math.Rectangle
 import com.saurabhtotey.jump.World
 
@@ -17,7 +17,7 @@ abstract class Entity(val world: World) {
     /**
      * How the entity looks in the current frame
      */
-    abstract var representation : Texture
+    abstract var representation : Sprite
 
     /**
      * What the entity does every frame given a change in time

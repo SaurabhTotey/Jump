@@ -1,6 +1,7 @@
 package com.saurabhtotey.jump.entity
 
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.math.Rectangle
 import com.saurabhtotey.jump.World
 
@@ -10,7 +11,7 @@ import com.saurabhtotey.jump.World
 class Ground(world: World) : Entity(world) {
 
     //Grounds look like the grounds texture
-    override var representation = Texture("Ground.png")
+    override var representation = Sprite(Texture("images/Ground.png"))
     //THe ground is always at the bottom
     override var location = Rectangle(0f, 0f, this.world.width, this.world.maxPlayerRelativeHeight)
 

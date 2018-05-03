@@ -2,6 +2,7 @@ package com.saurabhtotey.jump
 
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.saurabhtotey.jump.entity.Ground
+import com.saurabhtotey.jump.entity.Player
 
 /**
  * The class where the entire game takes place
@@ -16,8 +17,14 @@ class World {
     val maxPlayerRelativeHeight = this.height / 5
     //How high the game currently is; rises as the player of the game rises
     var currentBaseHeight = 0f
+    //The speed of the screen rise in px/ms
+    var screenRise = 0f
+    //The world's gravity or acceleration in the downward direction
+    val gravity = 2f
+    //The world's player
+    val player = Player(this)
     //A list of all the entities that are in the world
-    val entities = listOf(Ground(this))
+    val entities = listOf(this.player, Ground(this))
 
     /**
      * Draws the world and reflects any changes
@@ -32,7 +39,7 @@ class World {
      * What the world does every tick; just ensures that all entities update
      */
     fun act(delta: Float) {
-        this.currentBaseHeight += delta
+        this.currentBaseHeight += delta * screenRise
         this.entities.forEach { it.act(delta) }
     }
 
