@@ -27,7 +27,7 @@ class Player(game: Game) : Entity(game) {
     //The speed and direction that the player is moving towards in px/ms
     var velocity = Vector2(0f, 0f)
     //The maximum speed in any given component that the player can move
-    val maxVelocity = Vector2(10f, 5f)
+    val maxVelocity = Vector2(5f, 5f)
     //How the player looks; is based on the direction that the player is moving (velocity)
     override var representation: Sprite = PositionTexture.NEUTRAL.appearance
         get() = when {
