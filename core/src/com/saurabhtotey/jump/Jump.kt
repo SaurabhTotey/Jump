@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
-import com.saurabhtotey.jump.screen.MainMenuScreen
+import com.saurabhtotey.jump.ui.GameScreen
 import ktx.scene2d.Scene2DSkin
 
 /**
@@ -25,7 +25,7 @@ class Jump : Game() {
     override fun create() {
         Scene2DSkin.defaultSkin = Skin(Gdx.files.internal("skin/uiskin.json"))
         this.textDrawer = BitmapFont()
-        this.screen = MainMenuScreen(this)
+        this.screen = GameScreen(this)
         this.batch = SpriteBatch()
     }
 

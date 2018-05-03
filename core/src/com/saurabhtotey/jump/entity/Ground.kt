@@ -12,7 +12,7 @@ class Ground(world: World) : Entity(world) {
     //Grounds look like the grounds texture
     override var representation = Texture("Ground.png")
     //THe ground is always at the bottom
-    override var location = Rectangle(0f, 0f, this.world.width.toFloat(), this.world.maxPlayerRelativeHeight.toFloat())
+    override var location = Rectangle(0f, 0f, this.world.width, this.world.maxPlayerRelativeHeight)
 
     /**
      * Grounds don't do anything
