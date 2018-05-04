@@ -3,6 +3,7 @@ package com.saurabhtotey.jump
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.saurabhtotey.jump.entity.Ground
 import com.saurabhtotey.jump.entity.Player
+import kotlin.math.ceil
 
 /**
  * The class where the entire app takes place
@@ -24,7 +25,7 @@ class Game {
     //The app's player
     val player = Player(this)
     //A list of all the entities that are in the app
-    val entities = listOf(Ground(this))
+    var entities = listOf(Ground(this))
 
     /**
      * Draws the app and reflects any changes
@@ -43,10 +44,18 @@ class Game {
             return
         }
         (this.entities + this.player).forEach { it.act(delta) }
+        this.entities = this.entities.filterNot { it.location.y + it.location.height < this.currentBaseHeight }
+        this.entities.forEach {
+            if (it.location.x > width) {
+                it.location.x %= width
+            } else if (it.location.x + it.location.width < 0) {
+                it.location.x += width * ceil(it.location.x / width)
+            }
+        }
         if (this.player.location.y > this.currentBaseHeight + this.maxPlayerRelativeHeight) {
             this.currentBaseHeight = this.player.location.y - this.maxPlayerRelativeHeight
         }
-        if (this.player.location.y + this.player.location.width < this.currentBaseHeight) {
+        if (this.player.location.y + this.player.location.height < this.currentBaseHeight) {
             this.isRunning = false
         }
     }
