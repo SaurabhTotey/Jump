@@ -31,11 +31,11 @@ class Player(game: Game) : Entity(game) {
     //How the player looks; is based on the direction that the player is moving (velocity)
     override var representation: Sprite = PositionTexture.NEUTRAL.appearance
         get() = when {
-                this.velocity.x > 0 -> PositionTexture.RIGHT.appearance
-                this.velocity.x < 0 -> PositionTexture.LEFT.appearance
-                this.velocity.y < 0 -> PositionTexture.FALLING.appearance
-                else -> PositionTexture.NEUTRAL.appearance
-            }
+            this.velocity.x > 0 -> PositionTexture.RIGHT.appearance
+            this.velocity.x < 0 -> PositionTexture.LEFT.appearance
+            this.velocity.y < 0 -> PositionTexture.FALLING.appearance
+            else -> PositionTexture.NEUTRAL.appearance
+        }
 
 
     /**
@@ -44,6 +44,9 @@ class Player(game: Game) : Entity(game) {
     override fun act(delta: Float) {
         this.location.setPosition(Vector2().also { this.location.getPosition(it) } + this.velocity)
         this.velocity.y -= this.game.gravity * delta
+        if (this.velocity.y < -this.maxVelocity.y) {
+            this.velocity.y = -this.maxVelocity.y
+        }
         val horizontalCorrectionalAcceleration = this.game.gravity * delta * 3
         if (this.velocity.x < 0) {
             this.velocity.x += horizontalCorrectionalAcceleration
@@ -66,13 +69,13 @@ class Player(game: Game) : Entity(game) {
     }
 
     /**
-     * Moves the player horizontally towards the given point
+     * Moves the player horizontally towards the x coordinate
      */
-    fun moveTowards(destination: Vector2) {
-        val direction = destination - Vector2().also { this.location.getCenter(it) }
+    fun moveTowards(destination: Float) {
+        val direction = destination - Vector2().also { this.location.getCenter(it) }.x
         this.velocity.x = this.maxVelocity.x * when {
-            direction.x < 0 -> -1
-            direction.x > 0 -> 1
+            direction < 0 -> -1
+            direction > 0 -> 1
             else -> 0
         }
     }

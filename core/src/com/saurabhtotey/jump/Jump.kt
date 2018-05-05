@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
-import com.saurabhtotey.jump.ui.GameScreen
+import com.saurabhtotey.jump.ui.MenuScreen
 import ktx.scene2d.Scene2DSkin
 
 /**
@@ -29,7 +29,7 @@ class Jump : Game() {
             it.add("OptionsButton", Texture("images/OptionsButton.png"))
         }
         this.textDrawer = BitmapFont()
-        this.screen = GameScreen(this)
+        this.screen = MenuScreen(this)
         this.batch = SpriteBatch()
     }
 

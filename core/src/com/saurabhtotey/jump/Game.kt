@@ -58,7 +58,7 @@ class Game {
      */
     fun act(delta: Float) {
         //Game will not act if it isn't running or it is finished
-        if (!this.isRunning || this.isFinished) {
+        if (this.isFinished) {
             this.isRunning = false
             return
         }
@@ -74,9 +74,11 @@ class Game {
                 it.location.x += width * ceil(it.location.x / width)
             }
         }
-        //Coin spawning algorithm; TODO: is temporary
-        if (this.entities.size < 10) {
-            this.entities.add(Coin(this, Vector2(Math.random().toFloat() * this.width, this.currentBaseHeight + this.height + Math.random().toFloat() * this.maxPlayerRelativeHeight)))
+        if (this.isRunning) {
+            //Coin spawning algorithm; TODO: is temporary
+            if (this.entities.size < 15) {
+                this.entities.add(Coin(this, Vector2(Math.random().toFloat() * this.width, this.currentBaseHeight + this.height + Math.random().toFloat() * this.maxPlayerRelativeHeight)))
+            }
         }
         //Updates the base height if the player is above the maxPlayerRelativeHeight
         if (this.player.location.y > this.currentBaseHeight + this.maxPlayerRelativeHeight) {
@@ -91,6 +93,7 @@ class Game {
         if (this.isRunning) {
             return
         }
+        this.player.location.y += 1
         this.player.jump()
         this.isRunning = true
     }

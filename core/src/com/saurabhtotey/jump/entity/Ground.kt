@@ -16,8 +16,14 @@ class Ground(game: Game) : Entity(game) {
     override var location = Rectangle(0f, 0f, this.game.width, this.game.maxPlayerRelativeHeight)
 
     /**
-     * Grounds don't do anything
+     * Grounds will ensure that players who touch it are on top of it
      */
-    override fun act(delta: Float) {}
+    override fun act(delta: Float) {
+        if (!this.game.player.location.overlaps(this.location)) {
+            return
+        }
+        this.game.player.location.y = this.location.y + this.location.height
+        this.game.player.velocity.y = 0f
+    }
 
 }
