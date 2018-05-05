@@ -16,19 +16,23 @@ class Coin(game: Game, placement: Vector2) : Entity(game) {
      */
     companion object {
         val sprite = Sprite(Texture("images/Coin.png"))
-        val size = 20
+        const val size = 20
     }
 
+    //The location of the coin is given in the constructor as the center; width and height are constant for all coins
     override var location = Rectangle(0f, 0f, size.toFloat(), size.toFloat()).also { it.setCenter(placement) }
+    //All coins look the same and have the same sprite
     override var representation = sprite
 
     /**
-     * Coins check for collisions with players; if the player is touching, they will jump
+     * Coins check for collisions with players; if the player is touching, they will jump and the coin will be removed from the game
      */
     override fun act(delta: Float) {
-        if (this.game.player.location.overlaps(this.location)) {
-            this.game.player.jump()
+        if (!this.game.player.location.overlaps(this.location)) {
+            return
         }
+        this.game.player.jump()
+        this.game.entities.remove(this)
     }
 
 }
