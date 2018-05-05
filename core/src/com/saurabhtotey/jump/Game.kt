@@ -1,6 +1,9 @@
 package com.saurabhtotey.jump
 
 import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.math.Vector2
+import com.saurabhtotey.jump.entity.Coin
+import com.saurabhtotey.jump.entity.Entity
 import com.saurabhtotey.jump.entity.Ground
 import com.saurabhtotey.jump.entity.Player
 import kotlin.math.ceil
@@ -25,7 +28,7 @@ class Game {
     //The app's player
     val player = Player(this)
     //A list of all the entities that are in the app
-    var entities = listOf(Ground(this))
+    var entities = mutableListOf<Entity>(Ground(this))
 
     /**
      * Draws the app and reflects any changes
@@ -44,14 +47,19 @@ class Game {
             return
         }
         (this.entities + this.player).forEach { it.act(delta) }
-        this.entities = this.entities.filterNot { it.location.y + it.location.height < this.currentBaseHeight }
-        this.entities.forEach {
+        this.entities = this.entities.filterNot { it.location.y + it.location.height < this.currentBaseHeight }.toMutableList()
+        (this.entities + this.player).forEach {
             if (it.location.x > width) {
                 it.location.x %= width
             } else if (it.location.x + it.location.width < 0) {
                 it.location.x += width * ceil(it.location.x / width)
             }
         }
+        //TODO: below is temporary
+        if (this.entities.size < 10) {
+            this.entities.add(Coin(this, Vector2(Math.random().toFloat() * this.width, this.currentBaseHeight + Math.random().toFloat() * this.height)))
+        }
+        //TODO: above is temporary
         if (this.player.location.y > this.currentBaseHeight + this.maxPlayerRelativeHeight) {
             this.currentBaseHeight = this.player.location.y - this.maxPlayerRelativeHeight
         }
