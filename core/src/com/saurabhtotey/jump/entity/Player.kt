@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.saurabhtotey.jump.Game
 import ktx.math.*
+import kotlin.math.abs
 
 /**
  * The class that represents the player who is actually playing the app
@@ -73,10 +74,11 @@ class Player(game: Game) : Entity(game) {
      */
     fun moveTowards(destination: Float) {
         val direction = destination - Vector2().also { this.location.getCenter(it) }.x
-        this.velocity.x = this.maxVelocity.x * when {
-            direction < 0 -> -1
-            direction > 0 -> 1
-            else -> 0
+        this.velocity.x = when {
+            abs(direction) < maxVelocity.x -> direction
+            direction < 0 -> -this.maxVelocity.x
+            direction > 0 -> this.maxVelocity.x
+            else -> 0f
         }
     }
 
