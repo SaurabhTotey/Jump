@@ -1,15 +1,11 @@
 package com.saurabhtotey.jump.ui
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.utils.Align
 import com.saurabhtotey.jump.Game
 import com.saurabhtotey.jump.Jump
 import ktx.actors.onClick
 import ktx.app.use
-import ktx.scene2d.button
-import ktx.scene2d.image
-import ktx.scene2d.label
-import ktx.scene2d.table
+import ktx.scene2d.*
 
 /**
  * First screen that the user sees; is a main menu
@@ -28,8 +24,14 @@ class MenuScreen(app: Jump) : JumpScreen(app) {
             table {
                 setFillParent(true)
                 pad(5f)
-                label("Tap anywhere to begin...") {
-                    setFontScale(4f)
+                button {
+                    label("Begin") {
+                        setFontScale(4f)
+                    }
+                    onClick {
+                        app.screen = GameScreen(app, emptyGame)
+                        dispose()
+                    }
                     it.expand()
                 }
                 row().align(Align.bottomLeft)
@@ -55,12 +57,6 @@ class MenuScreen(app: Jump) : JumpScreen(app) {
         //Allows the batch to draw sprites and draws the app
         this.app.batch.use {
             this.emptyGame.draw(it)
-        }
-
-        //When the game is touched; changes screen to a game screen
-        if (Gdx.input.isTouched) {
-            this.app.screen = GameScreen(this.app, this.emptyGame)
-            this.dispose()
         }
     }
 

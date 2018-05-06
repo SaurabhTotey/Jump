@@ -2,6 +2,7 @@ package com.saurabhtotey.jump.ui
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.Vector3
+import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Align
 import com.saurabhtotey.jump.Jump
 import com.saurabhtotey.jump.Game
@@ -9,6 +10,7 @@ import ktx.actors.onClick
 import ktx.app.use
 import ktx.scene2d.button
 import ktx.scene2d.image
+import ktx.scene2d.label
 import ktx.scene2d.table
 
 /**
@@ -19,6 +21,7 @@ class GameScreen(app: Jump, val game: Game) : JumpScreen(app) {
 
     //Where the previous camera baseline was for the bottom of the app
     var cameraBaseline = 0f
+    lateinit var scoreLabel: Label
 
     /**
      * What happens when a GameScreen is created; initializes UI components
@@ -26,19 +29,26 @@ class GameScreen(app: Jump, val game: Game) : JumpScreen(app) {
     init {
         this.game.start()
         this.camera.setToOrtho(false, this.game.width, this.game.height)
-        this.uiContainer.addActor(table {
-            setFillParent(true)
-            pad(15f)
-            button {
-                image("PauseButton")
-                onClick {
+        this.uiContainer.addActor(
+            table {
+                setFillParent(true)
+                pad(15f)
+                button {
+                    image("PauseButton")
+                    onClick {
 
+                    }
+                    it.width(75f)
+                    it.height(75f)
                 }
-                it.width(75f)
-                it.height(75f)
+                scoreLabel = label("") {
+                    it.expandX()
+                    it.right()
+                    setFontScale(3f)
+                }
+                align(Align.topLeft)
             }
-            align(Align.topLeft)
-        })
+        )
     }
 
     /**
@@ -49,6 +59,7 @@ class GameScreen(app: Jump, val game: Game) : JumpScreen(app) {
         this.game.act(delta)
         this.camera.translate(0f, this.game.currentBaseHeight - this.cameraBaseline)
         this.cameraBaseline = this.game.currentBaseHeight
+        this.scoreLabel.setText("${this.game.currentBaseHeight.toInt()}")
 
         //Allows the batch to draw sprites and draws the app
         this.app.batch.use {

@@ -16,9 +16,10 @@ abstract class JumpScreen(val app: Jump) : KtxScreen {
     val uiContainer = Stage()
     //The camera that will handle drawing all other game things and such
     val camera = OrthographicCamera()
-    //Whether a component on the screen was touched; determines whether touch events should be processed or not
-    var buttonTouched = false
 
+    /**
+     * Registers UI components as input processors
+     */
     init {
         Gdx.input.inputProcessor = this.uiContainer
     }
@@ -35,10 +36,11 @@ abstract class JumpScreen(val app: Jump) : KtxScreen {
         this.camera.update()
         this.app.batch.projectionMatrix = this.camera.combined
 
+        //Updates all the UI components and then the game
+        this.uiContainer.act(delta)
         this.act(delta)
 
         //Draws the UI components
-        this.uiContainer.act(delta)
         this.uiContainer.draw()
     }
 
