@@ -1,6 +1,7 @@
 package com.saurabhtotey.jump.ui
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Align
@@ -68,7 +69,7 @@ class GameScreen(app: Jump, val game: Game) : JumpScreen(app) {
 
         //If the screen is touched, moves the player towards the touch
         if (Gdx.input.isTouched) {
-            this.game.player.moveTowards(camera.unproject(Vector3(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0f)).x)
+            this.game.player.moveTowards(camera.unproject(Vector3(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0f)).x - Vector2().also { this.game.player.location.getCenter(it) }.x < 0)
         }
     }
 

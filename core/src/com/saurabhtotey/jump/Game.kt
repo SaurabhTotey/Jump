@@ -71,7 +71,7 @@ class Game {
             if (it.location.x > width) {
                 it.location.x %= width
             } else if (it.location.x + it.location.width < 0) {
-                it.location.x += width * ceil(it.location.x / width)
+                it.location.x = width + it.location.x
             }
         }
         if (this.isRunning) {

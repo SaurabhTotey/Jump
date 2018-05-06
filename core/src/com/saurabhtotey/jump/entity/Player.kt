@@ -27,8 +27,6 @@ class Player(game: Game) : Entity(game) {
     override var location = Rectangle(game.width / 2 - 20, game.maxPlayerRelativeHeight, 40f, 80f)
     //The speed and direction that the player is moving towards in px/ms
     var velocity = Vector2(0f, 0f)
-    //The maximum speed in any given component that the player can move
-    val maxVelocity = Vector2(5f, 5f)
     //How the player looks; is based on the direction that the player is moving (velocity)
     override var representation: Sprite = PositionTexture.NEUTRAL.appearance
         get() = when {
@@ -45,9 +43,6 @@ class Player(game: Game) : Entity(game) {
     override fun act(delta: Float) {
         this.location.setPosition(Vector2().also { this.location.getPosition(it) } + this.velocity)
         this.velocity.y -= this.game.gravity * delta
-        if (this.velocity.y < -this.maxVelocity.y) {
-            this.velocity.y = -this.maxVelocity.y
-        }
         val horizontalCorrectionalAcceleration = this.game.gravity * delta * 3
         if (this.velocity.x < 0) {
             this.velocity.x += horizontalCorrectionalAcceleration
@@ -66,20 +61,14 @@ class Player(game: Game) : Entity(game) {
      * Makes the player jump
      */
     fun jump() {
-        this.velocity.y = this.maxVelocity.y
+        this.velocity.y = 5f
     }
 
     /**
-     * Moves the player horizontally towards the x coordinate
+     * Moves the player horizontally towards the given direction
      */
-    fun moveTowards(destination: Float) {
-        val direction = destination - Vector2().also { this.location.getCenter(it) }.x
-        this.velocity.x = when {
-            abs(direction) < maxVelocity.x -> direction
-            direction < 0 -> -this.maxVelocity.x
-            direction > 0 -> this.maxVelocity.x
-            else -> 0f
-        }
+    fun moveTowards(isLeft: Boolean) {
+        this.velocity.x = 5f * if (isLeft) -1 else 1
     }
 
 }
