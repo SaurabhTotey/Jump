@@ -71,7 +71,7 @@ class GameScreen(app: Jump, val game: Game) : JumpScreen(app) {
         if (this.isTiltAvailable) {
             val tilt = Gdx.input.accelerometerX
             if (tilt != 0f) {
-                this.game.player.changeHorizontalBy(tilt * -2)
+                this.game.player.changeHorizontalBy(tilt * -3)
             }
         }
         //If a key is pressed, move towards key direction
