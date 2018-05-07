@@ -48,16 +48,6 @@ class GameScreen(app: Jump, val game: Game) : JumpScreen(app) {
                     setFontScale(3f)
                 }
                 align(Align.topLeft)
-                //If tilt isn't available, add buttons for control
-                if (!isTiltAvailable) {
-                    //TODO: make these actually usable and not just text; maybe place at bottom or something
-                    button {
-                        label("left")
-                    }
-                    button {
-                        label("right")
-                    }
-                }
             }
         )
     }
@@ -83,6 +73,10 @@ class GameScreen(app: Jump, val game: Game) : JumpScreen(app) {
             if (tilt != 0f) {
                 this.game.player.moveTowards(tilt > 0)
             }
+        }
+        //If a key is pressed, move towards key direction
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            this.game.player.moveTowards(Gdx.input.isKeyPressed(Input.Keys.LEFT))
         }
     }
 
