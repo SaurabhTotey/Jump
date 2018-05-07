@@ -1,8 +1,7 @@
 package com.saurabhtotey.jump.ui
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.math.Vector3
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Align
 import com.saurabhtotey.jump.Jump
@@ -23,6 +22,7 @@ class GameScreen(app: Jump, val game: Game) : JumpScreen(app) {
     //Where the previous camera baseline was for the bottom of the app
     var cameraBaseline = 0f
     lateinit var scoreLabel: Label
+    val isTiltAvailable = Gdx.input.isPeripheralAvailable(Input.Peripheral.Accelerometer)
 
     /**
      * What happens when a GameScreen is created; initializes UI components
@@ -48,6 +48,16 @@ class GameScreen(app: Jump, val game: Game) : JumpScreen(app) {
                     setFontScale(3f)
                 }
                 align(Align.topLeft)
+                //If tilt isn't available, add buttons for control
+                if (!isTiltAvailable) {
+                    //TODO: make these actually usable and not just text; maybe place at bottom or something
+                    button {
+                        label("left")
+                    }
+                    button {
+                        label("right")
+                    }
+                }
             }
         )
     }
@@ -67,9 +77,12 @@ class GameScreen(app: Jump, val game: Game) : JumpScreen(app) {
             this.game.draw(this.app.batch)
         }
 
-        val tilt = Gdx.input.accelerometerX
-        if (tilt != 0f) {
-            this.game.player.moveTowards(tilt > 0)
+        //Uses the accelerometer to control movement with phone tilt if available
+        if (this.isTiltAvailable) {
+            val tilt = Gdx.input.accelerometerX
+            if (tilt != 0f) {
+                this.game.player.moveTowards(tilt > 0)
+            }
         }
     }
 
