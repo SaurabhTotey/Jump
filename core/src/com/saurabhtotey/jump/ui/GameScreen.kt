@@ -67,9 +67,9 @@ class GameScreen(app: Jump, val game: Game) : JumpScreen(app) {
             this.game.draw(this.app.batch)
         }
 
-        //If the screen is touched, moves the player towards the touch
-        if (Gdx.input.isTouched) {
-            this.game.player.moveTowards(camera.unproject(Vector3(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0f)).x - Vector2().also { this.game.player.location.getCenter(it) }.x < 0)
+        val tilt = Gdx.input.accelerometerX
+        if (tilt != 0f) {
+            this.game.player.moveTowards(tilt > 0)
         }
     }
 
