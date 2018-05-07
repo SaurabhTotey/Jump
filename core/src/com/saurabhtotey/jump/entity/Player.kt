@@ -67,8 +67,8 @@ class Player(game: Game) : Entity(game) {
     /**
      * Moves the player horizontally towards the given direction
      */
-    fun moveTowards(isLeft: Boolean) {
-        this.velocity.x = 5f * if (isLeft) -1 else 1
+    fun changeHorizontalBy(amount: Float) {
+        this.velocity.x = amount / 2
     }
 
 }
