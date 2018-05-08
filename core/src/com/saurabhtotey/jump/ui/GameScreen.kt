@@ -8,10 +8,7 @@ import com.saurabhtotey.jump.Jump
 import com.saurabhtotey.jump.Game
 import ktx.actors.onClick
 import ktx.app.use
-import ktx.scene2d.button
-import ktx.scene2d.image
-import ktx.scene2d.label
-import ktx.scene2d.table
+import ktx.scene2d.*
 
 /**
  * The screen that handles drawing and displaying and handling the graphics part of the app
@@ -21,8 +18,12 @@ class GameScreen(app: Jump, val game: Game) : JumpScreen(app) {
 
     //Where the previous camera baseline was for the bottom of the app
     var cameraBaseline = 0f
+    //The label that displays the score
     lateinit var scoreLabel: Label
+    //Whether the current device can use tilt controls
     val isTiltAvailable = Gdx.input.isPeripheralAvailable(Input.Peripheral.Accelerometer)
+    //Whether the game should be paused or not
+    var isPaused = false
 
     /**
      * What happens when a GameScreen is created; initializes UI components
@@ -35,9 +36,10 @@ class GameScreen(app: Jump, val game: Game) : JumpScreen(app) {
                 setFillParent(true)
                 pad(15f)
                 button {
-                    image("PauseButton")
+                    val pauseImage = image("PauseButton")
                     onClick {
-
+                        isPaused = !isPaused
+                        pauseImage.drawable = Scene2DSkin.defaultSkin.getDrawable(if (isPaused) "ResumeButton" else "PauseButton")
                     }
                     it.width(75f)
                     it.height(75f)
@@ -57,7 +59,9 @@ class GameScreen(app: Jump, val game: Game) : JumpScreen(app) {
      */
     override fun act(delta: Float) {
         //Updates game and moves camera based on game info
-        this.game.act(delta)
+        if (!this.isPaused) {
+            this.game.act(delta)
+        }
         this.camera.translate(0f, this.game.currentBaseHeight - this.cameraBaseline)
         this.cameraBaseline = this.game.currentBaseHeight
         this.scoreLabel.setText("${this.game.currentBaseHeight.toInt()}")
@@ -67,17 +71,20 @@ class GameScreen(app: Jump, val game: Game) : JumpScreen(app) {
             this.game.draw(this.app.batch)
         }
 
+        if (this.isPaused) {
+            return
+        }
         //Uses the accelerometer to control movement with phone tilt if available
         if (this.isTiltAvailable) {
-            val tilt = Gdx.input.accelerometerX
-            if (tilt != 0f) {
-                this.game.player.changeHorizontalBy(tilt * -3)
-            }
+            this.game.player.changeHorizontalBy(Gdx.input.accelerometerX * -3)
         }
         //If a key is pressed, move towards key direction
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             this.game.player.changeHorizontalBy(10f * if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) -1 else 1)
         }
     }
+
+    override fun pause() { this.isPaused = true }
+    override fun hide() { this.isPaused = true }
 
 }

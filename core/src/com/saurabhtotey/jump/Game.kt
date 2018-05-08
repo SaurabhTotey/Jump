@@ -37,10 +37,12 @@ class Game {
     //When a game is constructed, the constructor handles spawning the initial coin layout
     init {
         val rarity = 400
-        for (i in 0 until this.width.roundToInt() step 10) {
-            for (j in (this.player.location.y + this.player.location.height).roundToInt() until this.height.roundToInt() step 10) {
-                if ((Math.random() * rarity).roundToInt() == 0) {
-                    this.entities.add(Coin(this, Vector2(i.toFloat(), j.toFloat())))
+        while (this.entities.size < 5) {
+            for (i in 0 until this.width.roundToInt() step 10) {
+                for (j in (this.player.location.y + this.player.location.height).roundToInt() until this.height.roundToInt() step 10) {
+                    if ((Math.random() * rarity).roundToInt() == 0) {
+                        this.entities.add(Coin(this, Vector2(i.toFloat(), j.toFloat())))
+                    }
                 }
             }
         }

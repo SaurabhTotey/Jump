@@ -26,6 +26,7 @@ class Jump : Game() {
     override fun create() {
         Scene2DSkin.defaultSkin = Skin(Gdx.files.internal("defaultSkin/skin/uiskin.json")).also {
             it.add("PauseButton", Texture("images/PauseButton.png"))
+            it.add("ResumeButton", Texture("images/ResumeButton.png"))
             it.add("OptionsButton", Texture("images/OptionsButton.png"))
         }
         this.textDrawer = BitmapFont()
