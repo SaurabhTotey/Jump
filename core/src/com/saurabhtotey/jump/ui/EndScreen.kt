@@ -24,7 +24,7 @@ class EndScreen(app: Jump, score: Int) : JumpScreen(app) {
             table {
                 setFillParent(true)
                 pad(5f)
-                label("YOU DIED AFTER CLIMBING ${score}m!") {
+                label("YOU FELL AFTER JUMPING ${score}m!") {
                     setFontScale(1.8f)
                     it.expand()
                     it.colspan(3)

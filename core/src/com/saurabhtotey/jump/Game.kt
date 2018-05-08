@@ -1,7 +1,10 @@
 package com.saurabhtotey.jump
 
+import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.saurabhtotey.jump.entity.Coin
 import com.saurabhtotey.jump.entity.Entity
 import com.saurabhtotey.jump.entity.Ground
@@ -29,6 +32,15 @@ class Game {
     var currentBaseHeight = 0f
     //The app's gravity or acceleration in the downward direction
     val gravity = 2f
+    //A skin for all of the game assets and images
+    val assets = Skin().also {
+        it.add("Coin", Sprite(Texture("images/Coin.png")))
+        it.add("Ground", Sprite(Texture("images/Ground.png")))
+        it.add("PlayerNeutral", Sprite(Texture("images/player/PlayerNeutral.png")))
+        it.add("PlayerFalling", Sprite(Texture("images/player/PlayerFalling.png")))
+        it.add("PlayerRight", Sprite(Texture("images/player/PlayerRight.png")))
+        it.add("PlayerLeft", Sprite(Texture("images/player/PlayerRight.png")).also { it.flip(true, false) })
+    }
     //The app's player
     val player = Player(this)
     //A list of all the entities that are in the app
