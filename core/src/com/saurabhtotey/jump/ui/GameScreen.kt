@@ -64,16 +64,25 @@ class GameScreen(app: Jump, val game: Game) : JumpScreen(app) {
         }
         this.camera.translate(0f, this.game.currentBaseHeight - this.cameraBaseline)
         this.cameraBaseline = this.game.currentBaseHeight
-        this.scoreLabel.setText("${this.game.currentBaseHeight.toInt()}")
+        val gameScore = this.game.currentBaseHeight.toInt()
+        this.scoreLabel.setText("$gameScore")
 
         //Allows the batch to draw sprites and draws the app
         this.app.batch.use {
             this.game.draw(this.app.batch)
         }
 
+
+        //If the game is finished, switch screens
+        if (this.game.isFinished) {
+            this.app.screen = EndScreen(this.app, gameScore)
+            this.dispose()
+        }
+        //If the game is paused, doesn't look for controls
         if (this.isPaused) {
             return
         }
+
         //Uses the accelerometer to control movement with phone tilt if available
         if (this.isTiltAvailable) {
             this.game.player.changeHorizontalBy(Gdx.input.accelerometerX * -3)
