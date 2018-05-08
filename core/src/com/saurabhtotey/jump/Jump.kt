@@ -32,6 +32,7 @@ class Jump : Game() {
             it.add("ReplayButton", Texture("images/Replay.png"))
             it.add("StoreButton", Texture("images/Store.png"))
         }
+        Gdx.input.isCatchBackKey = true
         this.textDrawer = BitmapFont()
         this.screen = MenuScreen(this)
         this.batch = SpriteBatch()

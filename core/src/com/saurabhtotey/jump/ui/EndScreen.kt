@@ -67,4 +67,12 @@ class EndScreen(app: Jump, score: Int) : JumpScreen(app) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
     }
 
+    /**
+     * When the back button is passed, the game goes back to the main menu
+     */
+    override fun onBack() {
+        this.app.screen = MenuScreen(this.app)
+        this.dispose()
+    }
+
 }

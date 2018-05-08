@@ -1,6 +1,7 @@
 package com.saurabhtotey.jump.ui
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.scenes.scene2d.Stage
@@ -42,12 +43,22 @@ abstract class JumpScreen(val app: Jump) : KtxScreen {
 
         //Draws the UI components
         this.uiContainer.draw()
+
+        //Handles checking for the back key and passing it to what the screen wants to do
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            this.onBack()
+        }
     }
 
     /**
      * What the screen does every update or tick
      */
     abstract fun act(delta: Float)
+
+    /**
+     * What the screen does when the back button on Android is pressed
+     */
+    abstract fun onBack()
 
     /**
      * When the screen gets resized, updates the locations of the UI components

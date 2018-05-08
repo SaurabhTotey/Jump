@@ -1,5 +1,6 @@
 package com.saurabhtotey.jump.ui
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.utils.Align
 import com.saurabhtotey.jump.Game
 import com.saurabhtotey.jump.Jump
@@ -58,6 +59,13 @@ class MenuScreen(app: Jump) : JumpScreen(app) {
         this.app.batch.use {
             this.emptyGame.draw(it)
         }
+    }
+
+    /**
+     * When the back button is pressed on the main menu screen, the app is done
+     */
+    override fun onBack() {
+        Gdx.app.exit()
     }
 
 }

@@ -93,6 +93,14 @@ class GameScreen(app: Jump, val game: Game) : JumpScreen(app) {
         }
     }
 
+    /**
+     * When the back button is passed, the game goes back to the main menu
+     */
+    override fun onBack() {
+        this.app.screen = MenuScreen(this.app)
+        this.dispose()
+    }
+
     override fun pause() { this.isPaused = true }
     override fun hide() { this.isPaused = true }
 
