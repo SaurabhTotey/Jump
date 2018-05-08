@@ -28,6 +28,9 @@ class Jump : Game() {
             it.add("PauseButton", Texture("images/PauseButton.png"))
             it.add("ResumeButton", Texture("images/ResumeButton.png"))
             it.add("OptionsButton", Texture("images/OptionsButton.png"))
+            it.add("HomeButton", Texture("images/Home.png"))
+            it.add("ReplayButton", Texture("images/Replay.png"))
+            it.add("StoreButton", Texture("images/Store.png"))
         }
         this.textDrawer = BitmapFont()
         this.screen = MenuScreen(this)

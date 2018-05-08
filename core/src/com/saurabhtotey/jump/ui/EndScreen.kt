@@ -3,8 +3,11 @@ package com.saurabhtotey.jump.ui
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.utils.Align
+import com.saurabhtotey.jump.Game
 import com.saurabhtotey.jump.Jump
+import ktx.actors.onClick
 import ktx.scene2d.button
+import ktx.scene2d.image
 import ktx.scene2d.label
 import ktx.scene2d.table
 
@@ -30,20 +33,26 @@ class EndScreen(app: Jump, score: Int) : JumpScreen(app) {
                 button {
                     it.width(75f)
                     it.height(75f)
-                    label("Home")
-                    //TODO: home button
+                    image("HomeButton")
+                    onClick {
+                        app.screen = MenuScreen(app)
+                        dispose()
+                    }
                 }
                 button {
                     it.width(75f)
                     it.height(75f)
-                    label("Replay")
-                    //TODO: replay button
+                    image("ReplayButton")
+                    onClick {
+                        app.screen = GameScreen(app, Game())
+                        dispose()
+                    }
                 }
                 button {
                     it.width(75f)
                     it.height(75f)
-                    label("Store")
-                    //TODO: in-game store button
+                    image("StoreButton")
+                    onClick {  }
                 }
             }
         )
