@@ -22,6 +22,7 @@ class Coin(game: Game, placement: Vector2) : Entity(game) {
             return
         }
         this.game.player.jump()
+        this.game.collectedCoins++
         this.game.entities.remove(this)
     }
 

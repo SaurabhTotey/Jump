@@ -45,6 +45,8 @@ class Game {
     val player = Player(this)
     //A list of all the entities that are in the app
     var entities = mutableListOf<Entity>(Ground(this))
+    //How many coins the player has collected throughout the game
+    var collectedCoins = 0
 
     //When a game is constructed, the constructor handles spawning the initial coin layout
     init {
@@ -65,7 +67,8 @@ class Game {
      */
     fun draw(batch: Batch) {
         val bg = this.assets.getSprite("Background").texture
-        val parallaxFactor = 10
+        //TODO: make parallax transition look better
+        val parallaxFactor = 20
         batch.draw(bg, 0f, this.currentBaseHeight, this.width, this.height, 0, bg.height - (this.currentBaseHeight.roundToInt() % (bg.height * parallaxFactor)) / parallaxFactor, this.width.roundToInt(), this.height.roundToInt(), false, false)
         (this.entities + this.player).forEach { batch.draw(it.representation, it.location.x, it.location.y, it.location.width, it.location.height) }
     }

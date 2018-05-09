@@ -75,7 +75,7 @@ class GameScreen(app: Jump, val game: Game) : JumpScreen(app) {
 
         //If the game is finished, switch screens
         if (this.game.isFinished) {
-            this.app.screen = EndScreen(this.app, gameScore)
+            this.app.screen = EndScreen(this.app, gameScore, this.game.collectedCoins)
             this.dispose()
         }
         //If the game is paused, doesn't look for controls

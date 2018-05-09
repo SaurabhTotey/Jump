@@ -14,7 +14,7 @@ import ktx.scene2d.table
 /**
  * The screen that is what appears at the end of the game
  */
-class EndScreen(app: Jump, score: Int) : JumpScreen(app) {
+class EndScreen(app: Jump, score: Int, collectedCoins: Int) : JumpScreen(app) {
 
     /**
      * Makes an endscreen and initializes all of the UI Components
@@ -24,7 +24,7 @@ class EndScreen(app: Jump, score: Int) : JumpScreen(app) {
             table {
                 setFillParent(true)
                 pad(5f)
-                label("YOU FELL AFTER JUMPING ${score}m!") {
+                label("YOU FELL AFTER JUMPING ${score}m!\nYOU COLLECTED $collectedCoins COINS!") {
                     setFontScale(1.8f)
                     it.expand()
                     it.colspan(3)
