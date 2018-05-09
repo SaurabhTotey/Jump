@@ -49,7 +49,7 @@ class Player(game: Game) : Entity(game) {
      * Makes the player jump
      */
     fun jump() {
-        this.velocity.y = 5f
+        this.velocity.y = 15f
     }
 
     /**

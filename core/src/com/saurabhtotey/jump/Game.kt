@@ -9,7 +9,6 @@ import com.saurabhtotey.jump.entity.Coin
 import com.saurabhtotey.jump.entity.Entity
 import com.saurabhtotey.jump.entity.Ground
 import com.saurabhtotey.jump.entity.Player
-import kotlin.math.ceil
 import kotlin.math.roundToInt
 
 /**
@@ -31,9 +30,10 @@ class Game {
     //How high the app currently is; rises as the player of the app rises
     var currentBaseHeight = 0f
     //The app's gravity or acceleration in the downward direction
-    val gravity = 2f
+    val gravity = 5f
     //A skin for all of the game assets and images
     val assets = Skin().also {
+        it.add("Background", Sprite(Texture("images/Background.png")))
         it.add("Coin", Sprite(Texture("images/Coin.png")))
         it.add("Ground", Sprite(Texture("images/Ground.png")))
         it.add("PlayerNeutral", Sprite(Texture("images/player/PlayerNeutral.png")))
@@ -64,6 +64,9 @@ class Game {
      * Draws the app and reflects any changes
      */
     fun draw(batch: Batch) {
+        val bg = this.assets.getSprite("Background").texture
+        val parallaxFactor = 10
+        batch.draw(bg, 0f, this.currentBaseHeight, this.width, this.height, 0, bg.height - (this.currentBaseHeight.roundToInt() % (bg.height * parallaxFactor)) / parallaxFactor, this.width.roundToInt(), this.height.roundToInt(), false, false)
         (this.entities + this.player).forEach { batch.draw(it.representation, it.location.x, it.location.y, it.location.width, it.location.height) }
     }
 
