@@ -56,6 +56,15 @@ class EndScreen(app: Jump, score: Int, collectedCoins: Int) : JumpScreen(app) {
                 }
             }
         )
+        //In a real game, all the data would be stored online
+        val coinTotalFile = Gdx.files.local("JumpCoinTotal.txt")
+        if (coinTotalFile.exists()) {
+            coinTotalFile.writeString("${collectedCoins + Integer.parseInt(coinTotalFile.readString())}", false)
+        } else {
+            coinTotalFile.writeString("$collectedCoins", false)
+        }
+        val scoreDataFile = Gdx.files.local("JumpScoreData.txt")
+        scoreDataFile.writeString("\n$score", true)
     }
 
     /**
