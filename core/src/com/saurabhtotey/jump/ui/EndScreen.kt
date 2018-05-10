@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.utils.Align
 import com.saurabhtotey.jump.Game
 import com.saurabhtotey.jump.Jump
+import com.saurabhtotey.jump.UserData
 import ktx.actors.onClick
 import ktx.scene2d.button
 import ktx.scene2d.image
@@ -56,15 +57,9 @@ class EndScreen(app: Jump, score: Int, collectedCoins: Int) : JumpScreen(app) {
                 }
             }
         )
-        //In a real game, all the data would be stored online
-        val coinTotalFile = Gdx.files.local("JumpCoinTotal.txt")
-        if (coinTotalFile.exists()) {
-            coinTotalFile.writeString("${collectedCoins + Integer.parseInt(coinTotalFile.readString())}", false)
-        } else {
-            coinTotalFile.writeString("$collectedCoins", false)
-        }
-        val scoreDataFile = Gdx.files.local("JumpScoreData.txt")
-        scoreDataFile.writeString("\n$score", true)
+        //Updates user data based on game outcome
+        UserData.numCoins += collectedCoins
+        UserData.scores += score
     }
 
     /**
